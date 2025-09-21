@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>BMI Caluculator</title>
+  </head>
+
+
+  <body
+    class="bg-cover bg-center min-h-screen flex flex-col items-center justify-center px-25"
+    style="background-image: url('./images/b-g.png')"
+  >
+    <!-- Title -->
+    <p class="text-3xl font-semibold text-gray-900 mb-10 text-center">
+      BMI CALCULATOR
+    </p>
+
+    <!-- Two Divs Side by Side -->
+    <div
+      class="flex flex-col md:flex-row md:space-x-12 w-full max-w-6xl justify-center items-start"
+    >
+      <!-- Left Side (Form) -->
+      <div class="flex items-center justify-center w-full md:w-1/2">
+        <form class="max-w-md w-full bg-white p-6 rounded-lg shadow">
+          <h3 class="text-lg font-semibold text-gray-700 mb-4">
+            Enter Your Details
+          </h3>
+          <!-- Height -->
+          <div class="relative z-0 w-full mb-5 group">
+            <input
+              type="text"
+              name="height"
+              id="height"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:border-[blueviolet] focus:outline-none peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="height"
+              class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[blueviolet]"
+              >Height</label
+            >
+          </div>
+          <!-- Weight -->
+          <div class="relative z-0 w-full mb-5 group">
+            <input
+              type="text"
+              name="weight"
+              id="weight"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:border-[blueviolet] focus:outline-none peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="weight"
+              class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-[blueviolet]"
+              >Weight</label
+            >
+          </div>
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="w-full sm:w-auto px-5 py-2.5 text-sm font-medium text-white bg-[blueviolet] rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300"
+            >
+              Submit
+            </button>
+          </div>
+          
+        </form>
+      </div>
+
+      <!-- Right Side (Result Card) -->
+      <div
+        class="flex items-center justify-center w-full md:w-1/2 mt-8 md:mt-0"
+      >
+        <div class="bg-white shadow-lg rounded-2xl p-6 w-80 text-center">
+          <h2 class="text-lg font-semibold text-gray-700 mb-4">Your Results</h2>
+
+          <!-- Gauge -->
+          <div class="relative flex items-center justify-center">
+            <svg class="w-40 h-20" viewBox="0 0 200 100">
+              <path
+                d="M10 100 A90 90 0 0 1 190 100"
+                fill="none"
+                stroke="#E5E7EB"
+                stroke-width="12"
+              />
+              <path id="blurArc"
+                d="M10 100 A90 90 0 0 1 190 100"
+                fill="none"
+                stroke="#8A2BE2"
+                stroke-width="12"
+                stroke-dasharray="145"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <!-- Needle -->
+            <div class="top-9 absolute bottom-0 flex flex-col items-center">
+              <div id="needle"
+                class="w-1 h-12 bg-gray-700 rounded origin-bottom rotate"
+              ></div>
+              <div class="w-3 h-3 bg-gray-700 rounded-full -mt-2"></div>
+            </div>
+            <div class="absolute top-6 text-xs font-medium text-gray-600" id="catogory">
+              Normal
+            </div>
+          </div>
+          <!-- BMI Value -->
+          <div class="mt-6 text-4xl font-bold text-gray-800" id="bmivalue">
+            0
+          </div>
+          <p class="text-gray-400" id="bmitext">Your BMI is Normal</p>
+
+          <!-- Categories -->
+          <div class="flex justify-between mt-6">
+            <span
+              class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500" id="underweight"
+              >Underweight</span
+            >
+            <span
+              class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500" id="normal"
+              >Normal</span
+            >
+            <span
+              class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500" id="overweight"
+              >Overweight</span
+            >
+            <span
+              class="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-500" id="obese"
+              >Obese</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<script>
+        function calculate(event) {
+        event.preventDefault();
+        let height = document.getElementById("height").value;
+        let weight = document.getElementById("weight").value;
+        let needle=document.getElementById("needle");
+        let heightInMeters = height / 100;
+        let bmi = weight / (heightInMeters * heightInMeters);
+        document.getElementById("bmivalue").innerHTML = `${bmi.toFixed(2)}`;
+        let category = "";
+        if (bmi < 18.5) {
+          uw=document.getElementById('underweight')
+          uw.classList.add('bg-red-100','text-red-500');
+          category = "Underweight";
+          needle.classList.add('rotate-0')
+          document.getElementById('blurArc').setAttribute('stroke-dasharray', '145');
+          document.getElementById('blurArc').setAttribute('stroke','#EF4444')
+        }
+         else if (bmi >= 18.5 && bmi <= 24.9) {
+          nw=document.getElementById('normal');
+          nw.classList.add('bg-green-100','text-green-500')
+          needle.classList.add('rotate-0')
+          category = "Normal";
+          document.getElementById('blurArc').setAttribute('stroke-dasharray', '145');
+          document.getElementById('blurArc').setAttribute('stroke','#8A2BE2')
+        } else if (bmi >= 25 && bmi <= 29.9) {
+          category = "Overweight";
+           ow=document.getElementById('overweight')
+          ow.classList.add('bg-red-100', 'text-red-500')
+          needle.classList.add('rotate-70')
+          document.getElementById('blurArc').setAttribute('stroke-dasharray', '200');
+          document.getElementById('blurArc').setAttribute('stroke','#EF4444')
+        } else {
+          category = "Obese";
+          ob=document.getElementById('obese');
+          ob.classList.add('bg-red-100' ,'text-red-500')
+          needle.classList.add('rotate-90')
+          document.getElementById('blurArc').setAttribute('stroke-dasharray', '300');
+          document.getElementById('blurArc').setAttribute('stroke','#EF4444')
+        }
+        console.log("category",category);
+        document.getElementById('catogory').innerHTML="";
+        document.getElementById('catogory').innerHTML=`${category}`
+        document.getElementById('bmitext').innerHTML="";
+        document.getElementById('bmitext').innerHTML=`Your BMI is ${category}`
+        }
+        const form = document.querySelector("form");
+        form.addEventListener("submit", calculate);
+</script>
+</body>
+</html>
